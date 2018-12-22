@@ -3,13 +3,15 @@
 #raspberry pi, so i dont need to be in a car
 # Andrew Brashich
 import socket
+from time import sleep
 HOST_IP = "127.0.0.1"
 HOST_PORT = 3500
-with open("logging.txt","r") as LOGGING
+with open('logging.txt','r') as LOGGING:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as LOGSERVER:
         LOGSERVER.bind((HOST_IP, HOST_PORT))
         LOGSERVER.listen(1)
-        conn, addr = s.accept()
+        print("listening")
+        conn, addr = LOGSERVER.accept()
         with conn:
             print('Connected by', addr)
             for line in LOGGING:
