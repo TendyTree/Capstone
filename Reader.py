@@ -26,7 +26,7 @@ while (x):
     if not data:
         break
     print(data)
-    LOGGING.write(data)
+    LOGGING.write(data.decode('utf-8'))
 
 LOGGING.close()
 print("Closed")
