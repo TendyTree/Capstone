@@ -3,8 +3,6 @@
 #raspberry pi, so i dont need to be in a car
 # Andrew Brashich
 import socket
-LOGSERVER = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-LOGGING = open("logging.txt","r")
 HOST_IP = "127.0.0.1"
 HOST_PORT = 3500
 with open("logging.txt","r") as LOGGING
