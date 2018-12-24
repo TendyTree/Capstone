@@ -14,11 +14,7 @@ OBD2_PORT = 3500
 LOGSOCKET.settimeout(10)
 try:
     LOGSOCKET.connect((OBD2_IP, OBD2_PORT))
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 768d32817f53ff0e1657b9428bca525992f7d27f
     #Waits to recieve the data from the OBD2 reader and then stores it
     #in the logging file.
     while True:
