@@ -1,11 +1,26 @@
 #This program will be used to grab incoming data from port 3500
-# on ip 192.168.0.10 from the OBD2 reader for analysisself.
+# on ip 192.168.0.10 from the OBD2 reader for analysis.
+#This project is being based off the ELM327 architecture.
 # Andrew Brashich
 import socket
 
 #Set up Variables for the connection
 LOGSOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 LOGGING = open("logging.txt","w+")
+#All files that need to be created
+#RPM
+#SPEED
+#COOLANT
+#VOLTAGE
+#ERROR
+#ENGINELOAD
+#MAF
+#THROTTLE
+#AIRTEMP
+#OILTEMP
+#FUELRATE
+#GEAR
+#ODOMETER
 OBD2_IP = "192.168.0.10"
 OBD2_PORT = 3500
 
@@ -17,6 +32,12 @@ try:
 
     #Waits to recieve the data from the OBD2 reader and then stores it
     #in the logging file.
+	
+	#Todo: Send command each separately and all together. Then save them to there separate files 
+	#limit the sending after .1 seconds delay
+	
+	
+	
     while True:
         data = LOGSOCKET.recv(32)
         if not data:

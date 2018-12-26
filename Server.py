@@ -8,6 +8,20 @@ from time import sleep
 #Variables for local host
 HOST_IP = "127.0.0.1"
 HOST_PORT = 3500
+#All files that need to be created
+#RPM
+#SPEED
+#COOLANT
+#VOLTAGE
+#ERROR
+#ENGINELOAD
+#MAF
+#THROTTLE
+#AIRTEMP
+#OILTEMP
+#FUELRATE
+#GEAR
+#ODOMETER
 
 #Opens the save logging data for use
 with open('logging.txt','r') as LOGGING:
@@ -21,6 +35,11 @@ with open('logging.txt','r') as LOGGING:
 
         #With the connection, send all data from file with a 5 milisecond delayself.
         #After it closes the connection
+		
+		#recieves DATA and then parse what needed 
+		#switch case then sends out the data
+		
+		
         with conn:
             print('Connected by', addr)
             for line in LOGGING:
