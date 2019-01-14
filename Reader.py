@@ -7,20 +7,20 @@ import socket
 #Set up Variables for the connection
 LOGSOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 OBD2_IP = "192.168.0.10"
-OBD2_PORT = 3500
+OBD2_PORT = 35000
 
 
 def send_recv(_Send_command):
     _data = ''
     _decode_data = _Send_command + '\r'
     _Send_command += '\r'
-    LOGSOCKET.sendall(_Send_command)
+    LOGSOCKET.sendall(_Send_command.encode('utf8'))
     while True:
         _data = LOGSOCKET.recv(64)
-        print(data)
-        if _data.endswith(b'\r') or _data>128 or _data.endswith('>'):
-            _decode_data = _decode_data + a.decode('utf8') + "\n"
-            if _data.endswith('>'):
+        print(_data)
+        if _data.endswith(b'\r') or len(_data) > 128 or _data.endswith(b'>'):
+            _decode_data = _decode_data + _data.decode('utf8') + "\n"
+            if _data.endswith(b'>'):
                 break
     print(_decode_data)
     return _decode_data #contains _Send_command + \r + _data + \n + _data + \n...
@@ -30,6 +30,7 @@ def _InitOBD():
         _Init_commands = ("ATZ","ATD0","ATSP0","ATE0","ATH1","ATST64","ATS0","ATAT1","0100")
         for _commands in _Init_commands:
             _recv_data = send_recv(_commands)
+            print(_recv_data)
             _Init_file.write(_recv_data)
             if 'NODATA' in _recv_data or 'CAMERROR' in _recv_data:
                 return False
@@ -45,9 +46,10 @@ def _get_data():
         while True:
             for pids in _Pids:
                 _recv_data = send_recv(pids)
+                print(_recv_data)
                 _Logging.write(_recv_data)
-                if 'NODATA' in _recv_data or 'CAMERROR' in _recv_data:
-                    return
+                if 'CAN ERROR' in _recv_data:
+                    return None
 
 
 def main():
