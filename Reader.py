@@ -12,22 +12,21 @@ OBD2_PORT = 3500
 
 def send_recv(_Send_command):
     _data = ''
-    _decode_data = _Send_command + '\n'
+    _decode_data = _Send_command + '\r'
     _Send_command += '\r'
     LOGSOCKET.sendall(_Send_command)
-    print()
     while True:
         _data = LOGSOCKET.recv(64)
         print(data)
-        if _data.endswith(b'\r') or _data>128 or _data == '>':
-            _decode_data = _decode_data + a.rstrip().decode('utf8') + "\n"
-            if _data == '>':
+        if _data.endswith(b'\r') or _data>128 or _data.endswith('>'):
+            _decode_data = _decode_data + a.decode('utf8') + "\n"
+            if _data.endswith('>'):
                 break
     print(_decode_data)
-    return _decode_data #contains _Send_command + \n + _data + \n + _data + \n...
+    return _decode_data #contains _Send_command + \r + _data + \n + _data + \n...
 
 def _InitOBD():
-    with open("Init.txt","w+") as _Init_file:
+    with open("Init.txt","w+", newline='') as _Init_file:
         _Init_commands = ("ATZ","ATD0","ATSP0","ATE0","ATH1","ATST64","ATS0","ATAT1","0100")
         for _commands in _Init_commands:
             _recv_data = send_recv(_commands)
@@ -41,14 +40,14 @@ def _InitOBD():
 
 def _get_data():
     _data = ''
-    with open("logging1.txt","w+") as _Logging:
+    with open("logging1.txt","w+", newline='') as _Logging:
         _Pids = ('010C','010D','0105','019A','0145','0146','015C','015E','01A4','01A6','ATRV')
         while True:
             for pids in _Pids:
                 _recv_data = send_recv(pids)
                 _Logging.write(_recv_data)
                 if 'NODATA' in _recv_data or 'CAMERROR' in _recv_data:
-                    break
+                    return
 
 
 def main():
