@@ -24,7 +24,7 @@ def send_recv(_Send_command):
     return _decode_data #contains _Send_command + \r + _data + \n + _data + \n...
 
 def _InitOBD():
-    with open("Init.txt","w+", newline='') as _Init_file:
+    with open("Init3.txt","w+", newline='') as _Init_file:
         _Init_commands = ("ATZ","ATD0","ATSP0","ATE0","ATH1","ATST64","ATS0","ATAT1","0100")
         for _commands in _Init_commands:
             _recv_data = send_recv(_commands)
@@ -38,7 +38,7 @@ def _InitOBD():
 
 def _get_data():
     _data = ''
-    with open("logging1.txt","w+", newline='') as _Logging:
+    with open("logging3.txt","w+", newline='') as _Logging:
         _Pids = ('0105','010C','010D','0144','0146','0149','ATRV')
         #Coolant,rpm,Speed,MAF,Fuel air Command,Ambent air,Pedal Position,Volatge
 

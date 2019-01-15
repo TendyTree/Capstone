@@ -8,8 +8,7 @@ from time import sleep
 #Variables for local host
 _init_s = True
 HOST_IP = "127.0.0.1"
-HOST_PORT = 3500
-_Pids = [
+HOST_PORT = 35000
 
 _Pids = [
 ['0105\r'],#Coolant
@@ -38,15 +37,14 @@ def _Init_files():
     _temp = ''
     _list_iter = 0
     _search = True
-    with open("Init.txt","r+", newline='') as _Init_file:
+    with open("Init2.txt","r+", newline='') as _Init_file:
         for _line in _Init_file:
             if _search == True:
                 for i, _Init_AT in enumerate(_Start_AT):
-                    if _Init_AT == _line:
+                    if _Init_AT[0] == _line:
                         _list_iter = i
                         _search = False
                         break
-                return('ERROR')
             else:
                 _temp = _temp + _line.rstrip('\n')
                 if _line == '>\n':
@@ -58,16 +56,14 @@ def _Init_files():
     _list_iter = 0
     _search = True
     _temp = ''
-    with open("logging1.txt","r+", newline='') as _Logging:
+    with open("logging2.txt","r+", newline='') as _Logging:
         for _line in _Logging:
             if _search == True:
                 for i, _Ids in enumerate(_Pids):
-                    if _Ids == _line:
+                    if _Ids[0] == _line:
                         _list_iter = i
                         _search = False
                         break
-                    else:
-                        return('ERROR')
             else:
                 _temp = _temp + _line.rstrip('\n')
                 if _line == '>\n':
@@ -79,20 +75,19 @@ def _Init_files():
 def _Search_init(_recv):
     _list = []
     for i, _Init_AT in enumerate(_Start_AT):
-        if _Init_AT == _recv:
+        if _Init_AT[0] == _recv.decode('utf8'):
             if len(_Start_AT[i]) > 1:
                     for value in _Start_AT[i][1:]:
                         _list.append(value)
-                        del _Pids[i][1]
+                        del _Start_AT[i][1]
                         if value.endswith('>'):
-                            return _list
-        else:
-            return False, None
+                            return True,_list
+    return False, None
 
 def _Search_Pids(_recv):
     _list = []
     for i, _Init_AT in enumerate(_Pids):
-        if _Init_AT == _recv and len(_Pids[i]) > 1:
+        if _Init_AT[0] == _recv.decode('utf8'):
             if len(_Pids[i]) > 1:
                 for value in _Pids[i][1:]:
                     _list.append(value)
@@ -100,13 +95,18 @@ def _Search_Pids(_recv):
                     if value.endswith('>'):
                         return _list
 
-    return ['NODATA\r','>\r']
+    return ['NO DATA\r','>\r']
 
 
 
 
 def main():
-    if not _Init_files() == error:
+    _init_s = True
+    if not _Init_files() == 'error':
+        for i in _Start_AT:
+            print(i)
+        for a in _Pids:
+            print(a)
     #Initialize the socket for the server and set it to listening
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as LOGSERVER:
             LOGSERVER.bind((HOST_IP, HOST_PORT))
@@ -123,14 +123,17 @@ def main():
                             bool, _list = _Search_init(data)
                             if bool == True:
                                 for i in _list:
-                                    conn.sendall(i)
+                                    conn.sendall(i.encode('utf8'))
                             else:
                                 _init_s = bool
-                        else:
+                        if _init_s == False:
                             _list = _Search_Pids(data)
                             for str in _list:
-                                conn.sendall(str)
+                                conn.sendall(str.encode('utf8'))
                     else:
+                        if(data == b''):
+                            break
+                        print(data)
                         conn.sendall(b'?\r')
                         conn.sendall(b'>\r')
     input()
