@@ -17,12 +17,10 @@ def send_recv(_Send_command):
     LOGSOCKET.sendall(_Send_command.encode('utf8'))
     while True:
         _data = LOGSOCKET.recv(64)
-        print(_data)
         if _data.endswith(b'\r') or len(_data) > 128 or _data.endswith(b'>'):
             _decode_data = _decode_data + _data.decode('utf8') + "\n"
             if _data.endswith(b'>'):
                 break
-    print(_decode_data)
     return _decode_data #contains _Send_command + \r + _data + \n + _data + \n...
 
 def _InitOBD():
@@ -30,9 +28,8 @@ def _InitOBD():
         _Init_commands = ("ATZ","ATD0","ATSP0","ATE0","ATH1","ATST64","ATS0","ATAT1","0100")
         for _commands in _Init_commands:
             _recv_data = send_recv(_commands)
-            print(_recv_data)
             _Init_file.write(_recv_data)
-            if 'NODATA' in _recv_data or 'CAMERROR' in _recv_data:
+            if 'NODATA' in _recv_data or 'CAM ERROR' in _recv_data:
                 return False
         print("Done with INIT")
     return True
@@ -42,13 +39,12 @@ def _InitOBD():
 def _get_data():
     _data = ''
     with open("logging1.txt","w+", newline='') as _Logging:
-        _Pids = ('0105','010C','010D','0110','0144','0146','0149','ATRV')
+        _Pids = ('0105','010C','010D','0144','0146','0149','ATRV')
         #Coolant,rpm,Speed,MAF,Fuel air Command,Ambent air,Pedal Position,Volatge
 
         while True:
             for pids in _Pids:
                 _recv_data = send_recv(pids)
-                print(_recv_data)
                 _Logging.write(_recv_data)
                 if 'CAN ERROR' in _recv_data:
                     return None
