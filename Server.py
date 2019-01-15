@@ -10,17 +10,16 @@ _init_s = True
 HOST_IP = "127.0.0.1"
 HOST_PORT = 3500
 _Pids = [
-['010C\r'],
-['010D\r'],
-['0105\r'],
-['019A\r'],
-['0145\r'],
-['0146\r'],
-['015C\r'],
-['015E\r'],
-['01A4\r'],
-['01A6\r'],
-['ATRV\r']
+
+_Pids = [
+['0105\r'],#Coolant
+['010C\r'],#rpm
+['010D\r'],#Speed
+['0110\r'],#MAF
+['0144\r'],#Fuel air Command
+['0146\r'],#Ambent air
+['0149\r'],#Pedal Position
+['ATRV\r']#Volatge
 ]
 _Start_AT = [
 ['ATZ\r'],
@@ -105,7 +104,7 @@ def _Search_Pids(_recv):
 
 
 
-#Opens the save logging data for use
+
 def main():
     if not _Init_files() == error:
     #Initialize the socket for the server and set it to listening
@@ -114,13 +113,6 @@ def main():
             LOGSERVER.listen(1)
             print("listening")
             conn, addr = LOGSERVER.accept()
-
-        #With the connection, send all data from file with a 5 milisecond delayself.
-        #After it closes the connection
-
-		#recieves DATA and then parse what needed
-		#switch case then sends out the data
-
 
             with conn:
                 print('Connected by', addr)
@@ -141,3 +133,7 @@ def main():
                     else:
                         conn.sendall(b'?\r')
                         conn.sendall(b'>\r')
+    input()
+
+if __name__ == '__main__':
+    main()

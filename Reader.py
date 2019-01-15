@@ -42,7 +42,9 @@ def _InitOBD():
 def _get_data():
     _data = ''
     with open("logging1.txt","w+", newline='') as _Logging:
-        _Pids = ('010C','010D','0105','019A','0145','0146','015C','015E','01A4','01A6','ATRV')
+        _Pids = ('0105','010C','010D','0110','0144','0146','0149','ATRV')
+        #Coolant,rpm,Speed,MAF,Fuel air Command,Ambent air,Pedal Position,Volatge
+
         while True:
             for pids in _Pids:
                 _recv_data = send_recv(pids)
