@@ -31,6 +31,14 @@ QString Parser::Parse_item(QString parse, QString command, bool start)
      */
     if(start == false){
         if(command == "0105\r"){
+            if(parse.contains("4105")){
+                for(int i = 0; i <= parse.length(); i++){
+                    repeat.append(parse.indexOf("4105"));
+                    //check to see if it comes back -1
+                    //if so break
+                    //esle set i to index
+                }
+            }
 
         }else if(command == "010C\r"){
 
