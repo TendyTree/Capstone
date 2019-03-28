@@ -118,6 +118,8 @@ def main():
                 print('Connected by', addr)
                 while True:
                     data = conn.recv(64)
+                    if not data:
+                        break
                     if data.endswith(b'\r'):
                         if _init_s == True:
                             bool, _list = _Search_init(data)
