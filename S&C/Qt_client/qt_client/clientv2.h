@@ -19,6 +19,8 @@ public slots:
     void goterror(QAbstractSocket::SocketError socError);
 private:
     QTcpSocket *tcp = nullptr;
+    QList<QByteArray> run_commands;
+    QList<QByteArray> start_commands;
 };
 
 #endif // CLIENTV2_H

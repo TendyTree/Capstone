@@ -1,6 +1,6 @@
 #include <QCoreApplication>
 #include <client.h>
-#include <clientv2.h>
+#include <clientv3.h>
 #include <iostream>
 #include <QDebug>
 /* Andrew Brashich
@@ -28,8 +28,18 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    ClientV2 _client;
+    ClientV3 _client;
     qInfo() << "Hello and welcome to the TCP network connection. Please send something:";
-    _client.start();
+    if(_client.start()){
+        qInfo() << "next";
+        if(_client.connected()){
+            qInfo() << "next";
+            _client.run();
+        }else {
+        qInfo() << "Broken start";
+        }
+    }else {
+    qInfo() << "Broken connection";
+    }
     return a.exec();
 }

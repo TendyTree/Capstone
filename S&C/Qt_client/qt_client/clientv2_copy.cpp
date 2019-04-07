@@ -2,8 +2,6 @@
 
 ClientV2::ClientV2(QObject *parent) : QObject(parent)
 {
-    start_commands = {"ATZ\r","ATD0\r","ATSP0\r","ATE0\r","ATH1\r","ATST64\r","ATS0\r","ATAT1\r","0100\r"};
-    run_commands = {"0105\r","010C\r","010D\r","0144\r","0146\r","0149\r","ATRV\r"};
     tcp = new QTcpSocket(this);
     connect(tcp, SIGNAL(connected()), this, SLOT(connected()));
     connect(tcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(goterror(QAbstractSocket::SocketError)));

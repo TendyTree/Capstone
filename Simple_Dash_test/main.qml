@@ -2,7 +2,8 @@ import QtQuick 2.12
 import QtQuick.Window 2.2
 import QtQuick.VirtualKeyboard 2.2
 import QtQuick.Shapes 1.0
-
+import QtQuick.Extras 1.4
+import QtQuick.Controls.Styles 1.4
 Window {
     id: window
     visible: true
@@ -14,52 +15,95 @@ Window {
     opacity: 1
     title: qsTr("Dash Test")
 
+    CircularGauge {
+        id: speed
+        x: 72
+        anchors.verticalCenter: parent.verticalCenter
+        width: parent.height * 0.7
+        height: parent.height * 0.7
+        value: 50.5
+        anchors.left: parent.left
+        anchors.leftMargin: parent.height * -0.3
 
-    Shape {
-        id: shape
-        x: 0
-        y: 0
-        width: window.width
-        height: window.height
-        antialiasing: true
-        transformOrigin: Item.TopLeft
-        scale: 1
+    }
 
-        Text {
-            id: element
-            x: 36
-            y: 215
-            width: 160
-            height: 45
-            color: "#ffffff"
-            text: qsTr("180 MPH")
-            styleColor: "#ffffff"
-            horizontalAlignment: Text.AlignRight
-            anchors.left: parent.left
-            anchors.leftMargin: 36
-            anchors.top: parent.top
-            anchors.topMargin: 215
-            font.family: "Arial"
-            transformOrigin: Item.TopLeft
-            font.pixelSize: 38
-        }
+    CircularGauge {
+        id: rpm
+        x: -50
+        y: 72
+        anchors.verticalCenter: parent.verticalCenter
+        width: parent.height * 0.7
+        height: parent.height * 0.7
+        anchors.rightMargin: parent.height * -0.3
+        anchors.right: parent.right
+        CircularGauge {
+               id: gauge
+               anchors.fill: parent
+               style: CircularGaugeStyle {
+                   labelInset: outerRadius * 0.2
 
-        ShapePath {
-            fillColor: "transparent"
-            strokeColor: "darkBlue"
-            strokeWidth: 20
-            capStyle: ShapePath.FlatCap
+                   tickmarkLabel: null
 
-            PathAngleArc {
-                centerX: 0; centerY: window.height/2
-                radiusX: Math.min(window.height, window.width)/2 - 10; radiusY:Math.min(window.height, window.width)/2 - 10;
-                startAngle: 90
-                sweepAngle: -150
+                   tickmark: Text {
+                       text: styleData.value
 
-            }
+                       Text {
+                           anchors.horizontalCenter: parent.horizontalCenter
+                           anchors.top: parent.bottom
+                           text: styleData.index
+                           color: "blue"
+                       }
+                   }
+
+                   minorTickmark: Text {
+                       text: styleData.value
+                       font.pixelSize: 8
+
+                       Text {
+                           anchors.horizontalCenter: parent.horizontalCenter
+                           anchors.top: parent.bottom
+                           text: styleData.index
+                           font.pixelSize: 8
+                           color: "blue"
+                       }
+                   }
+               }
+
+               Text {
+                   id: indexText
+                   text: "Major and minor indices"
+                   anchors.horizontalCenter: parent.horizontalCenter
+                   anchors.bottom: valueText.top
+                   color: "blue"
+               }
+               Text {
+                   id: valueText
+                   text: "Major and minor values"
+                   anchors.horizontalCenter: parent.horizontalCenter
+                   anchors.bottom: parent.bottom
+               }
         }
 
     }
+
+    Gauge {
+        id: gauge1
+        x: 79
+        y: 346
+        value: 50
+        rotation: 90
+    }
+
+    Text {
+        id: element
+        x: 323
+        y: 166
+        text: qsTr("Text")
+        font.family: "Courier"
+        font.pixelSize: 12
+    }
+
+
 }
 
 
@@ -70,7 +114,11 @@ Window {
 
 
 
+
+
+
+
 /*##^## Designer {
-    D{i:4;anchors_height:45;anchors_width:160;anchors_x:36;anchors_y:215}
+    D{i:1;anchors_height:480;anchors_width:800;anchors_x:0;anchors_y:0}
 }
  ##^##*/

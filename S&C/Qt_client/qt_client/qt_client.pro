@@ -20,7 +20,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     client.cpp \
-    clientv2.cpp
+    clientv2.cpp \
+    clientv3.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -29,4 +30,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     client.h \
-    clientv2.h
+    clientv2.h \
+    clientv3.h
