@@ -118,6 +118,7 @@ def main():
                 print('Connected by', addr)
                 while True:
                     data = conn.recv(64)
+                    print(data)
                     if not data:
                         break
                     if data.endswith(b'\r'):
@@ -131,6 +132,7 @@ def main():
                         if _init_s == False:
                             _list = _Search_Pids(data)
                             for str in _list:
+                                print(str.encode('utf8'))
                                 conn.sendall(str.encode('utf8'))
                     else:
                         if(data == b''):
@@ -138,6 +140,7 @@ def main():
                         print(data)
                         conn.sendall(b'?\r')
                         conn.sendall(b'>\r')
+    print("end");
     input()
 
 if __name__ == '__main__':
