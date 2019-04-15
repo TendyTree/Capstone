@@ -119,6 +119,7 @@ def main():
                 while True:
                     data = conn.recv(64)
                     print(data)
+                    sleep(.3)
                     if not data:
                         break
                     if data.endswith(b'\r'):

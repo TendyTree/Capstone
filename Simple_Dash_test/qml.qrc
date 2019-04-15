@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>Rpmstyle.qml</file>
+        <file>Speedstyle.qml</file>
     </qresource>
 </RCC>

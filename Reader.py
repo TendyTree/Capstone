@@ -6,7 +6,7 @@ import socket
 
 #Set up Variables for the connection
 LOGSOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-OBD2_IP = "127.0.0.1"
+OBD2_IP = "192.168.0.10"
 OBD2_PORT = 35000
 
 
