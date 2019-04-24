@@ -13,16 +13,8 @@ Window {
     color: "#000000"
     opacity: 1
     visibility: "FullScreen"
-    title: qsTr("Dash Test")
+    title: qsTr("Dash")
 
-
-    /*TODO
-      put styling of gauge in one file
-      import contextproperty
-      set gauges in more
-      make them look better
-      fix coolant temp
-      */
 
     CircularGauge {
         id: coolanttemp
@@ -47,7 +39,7 @@ Window {
                 anchors.top: parent.top
                 anchors.topMargin: parent.height * .2
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: "coolant.png"
+                source: "qrc:/coolant.PNG"
                 fillMode: Image.PreserveAspectFit
             }
 

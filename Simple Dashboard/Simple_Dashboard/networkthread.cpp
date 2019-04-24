@@ -1,7 +1,6 @@
 #include "networkthread.h"
 #include <QtCore>
 #include <QDebug>
-#include "networkThread.h"
 
 networkThread::networkThread(QObject *parent): QThread(parent)
 {
