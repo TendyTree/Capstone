@@ -7,5 +7,6 @@
         <file>Throttle.PNG</file>
         <file>Voltage.PNG</file>
         <file>coolant.png</file>
+        <file>Tempature.png</file>
     </qresource>
 </RCC>
