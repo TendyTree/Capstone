@@ -45,6 +45,13 @@ public slots:
     void goterror(QAbstractSocket::SocketError socError);
 private:
     QMutex mutex;
+    QMutex coolantmutex;
+    QMutex rpmmutex;
+    QMutex speedmutex;
+    QMutex airfuelmutex;
+    QMutex airtempmutex;
+    QMutex throttlemutex;
+    QMutex voltagemutex;
     QByteArray send(QByteArray command);
     void coolant_temp(QByteArray coolantTemp);
     void engine_rpm(QByteArray engineRpm);

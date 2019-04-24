@@ -31,3 +31,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     networkthread.h
+
+DISTFILES +=

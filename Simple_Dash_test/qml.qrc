@@ -3,5 +3,9 @@
         <file>main.qml</file>
         <file>Rpmstyle.qml</file>
         <file>Speedstyle.qml</file>
+        <file>Defaultgauge.qml</file>
+        <file>Throttle.PNG</file>
+        <file>Voltage.PNG</file>
+        <file>coolant.png</file>
     </qresource>
 </RCC>

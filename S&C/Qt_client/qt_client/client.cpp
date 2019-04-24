@@ -15,6 +15,7 @@ void client::Connect(){
 
     qInfo() <<"Connecting to server!";
     tcp->connectToHost("127.0.0.1",35000);
+    tcp->waitForConnected(1000);
 
 }
 void client::sendmsg(){

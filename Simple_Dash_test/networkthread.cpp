@@ -23,7 +23,6 @@ bool networkThread::begin(){
 bool networkThread::initstart(){
     QByteArray temp_array;
     qInfo() << "Welcome to the server!";
-    mutex.lock();
     for(int i = 0; i < start_commands.size(); i++){
         //mutex
         temp_array = send(start_commands.at(i));
@@ -34,7 +33,6 @@ bool networkThread::initstart(){
         }
         //unlock
     }
-    mutex.unlock();
     qInfo() << "return from start and starting thread";
     if (!isRunning()){
         start();
@@ -51,7 +49,6 @@ void networkThread::run(){
     qInfo() << "Starting client";
     while(quit){
         for(int i = 0; i < run_commands.size(); i++){
-            //mutex here
             temp_recieve = send(run_commands.at(i));
             if(!temp_recieve.contains("CAN ERROR") && temp_recieve != nullptr){
             }else {
@@ -99,30 +96,25 @@ void networkThread::run(){
     tcp->close();
 }
 QByteArray networkThread::send(QByteArray command){
+    QMutexLocker locker(&mutex);
     tcp->write(command);
     QByteArray buffer;
     bool command_finished = false;
     if(!tcp->waitForBytesWritten(5000)){
-        //lock
         quit = false;
-        //unlock
     }
     while(!command_finished){
         if(!tcp->waitForReadyRead(5000)){
              emit socketerror(tcp->error());
-            //mutex
             quit = false;
             return nullptr;
-            //unlock
         }
         buffer.append(tcp->readAll());
         if(buffer.contains('>')){
             command_finished = true;
         }
     }
-    //lock
     return buffer;
-    //unlock
 }
 
 
@@ -133,38 +125,50 @@ QByteArray networkThread::send(QByteArray command){
 void networkThread::coolant_temp(QByteArray coolantTemp){
     int temp = 0;
     temp = get_values("4105",coolantTemp);
+    coolantmutex.lock();
     coolant = temp - 40;
     emit coolantchange();
+    coolantmutex.unlock();
 }
 void networkThread::engine_rpm(QByteArray engineRpm){
     int temp = 0;
     temp = get_values("410C",engineRpm);
+    rpmmutex.lock();
     rpm = temp/4;
     emit rpmchange();
+    rpmmutex.unlock();
 }
 void networkThread::vehicle_speed(QByteArray vehiclSpeed){
     int temp = 0;
     temp = get_values("410D",vehiclSpeed);
+    speedmutex.lock();
     speed = temp;
     emit speedchange();
+    speedmutex.unlock();
 }
 void networkThread::air_fuel(QByteArray airFuel){
     float temp = 0;
     temp = get_values("4144", airFuel);
+    airfuelmutex.lock();
     airfuel = (temp*2)/65536;
     emit airfuelchange();
+    airfuelmutex.unlock();
 }
 void networkThread::air_Temp(QByteArray airTemp){
     int temp = 0;
     temp = get_values("4146",airTemp);
+    airtempmutex.lock();
     tempature = temp - 40;
     emit tempaturechange();
+    airtempmutex.unlock();
 }
 void networkThread::throttle_position(QByteArray throttlePostion){
     float temp = 0;
     temp = get_values("4149", throttlePostion);
+    throttlemutex.lock();
     throttle = (temp*100)/255;
     emit throttlechange();
+    throttlemutex.unlock();
 }
 void networkThread::current_voltage(QByteArray currentVoltage){
     float tempvalue = 0;
@@ -172,8 +176,10 @@ void networkThread::current_voltage(QByteArray currentVoltage){
     QByteArray temp = "";
     temp = currentVoltage.mid(0, temp_int);
     tempvalue = temp.toFloat();
+    voltagemutex.lock();
     voltage = tempvalue;
     emit voltagechange();
+    voltagemutex.unlock();
 }
 int networkThread::get_values(QByteArray command, QByteArray message){
     bool tempTrue = true;
@@ -204,25 +210,53 @@ int networkThread::get_values(QByteArray command, QByteArray message){
 
 
 int networkThread::getcoolant(){
-    return coolant;
+    int temp;
+    coolantmutex.lock();
+    temp = coolant;
+    coolantmutex.unlock();
+    return temp;
 }
 int networkThread::getrpm(){
-    return rpm;
+    int temp;
+    rpmmutex.lock();
+    temp = rpm;
+    rpmmutex.unlock();
+    return temp;
 }
 int networkThread::getspeed(){
-    return speed;
+    int temp;
+    speedmutex.lock();
+    temp = speed;
+    speedmutex.unlock();
+    return temp;
 }
 int networkThread::gettempature(){
-    return tempature;
+    int temp;
+    airtempmutex.lock();
+    temp = tempature;
+    airtempmutex.unlock();
+    return temp;
 }
 float networkThread::getairfuel(){
-    return airfuel;
+    float temp;
+    airfuelmutex.lock();
+    temp = airfuel;
+    airfuelmutex.unlock();
+    return temp;
 }
 float networkThread::getthrottle(){
-    return throttle;
+    float temp;
+    throttlemutex.lock();
+    temp = throttle;
+    throttlemutex.unlock();
+    return temp;
 }
 float networkThread::getvoltage(){
-    return voltage;
+    float temp;
+    voltagemutex.lock();
+    temp = voltage;
+    voltagemutex.unlock();
+    return temp;
 }
 
 

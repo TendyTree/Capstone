@@ -1,10 +1,19 @@
 import QtQuick 2.0
 import QtQuick.Controls.Styles 1.4
-CircularGaugeStyle {
-    minimumValueAngle: -185
-    maximumValueAngle: 0
+import QtQuick.Extras 1.4
+Defaultgauge {
+    id: rpmstyling
+    minimumValueAngle: -140
+    maximumValueAngle: 140
     tickmarkStepSize: 1000
     foreground: Item {
+        Rectangle {
+            width: outerRadius
+            height: width
+            radius: width / 2
+            color: "black"
+            anchors.centerIn: parent
+        }
         Text {
             id: rpmlabel
             anchors.centerIn: parent
@@ -13,13 +22,14 @@ CircularGaugeStyle {
             color: "white"
             antialiasing: true
         }
-    }
-    needle: Rectangle {
-        y: outerRadius * -.15
-        implicitWidth: outerRadius * 0.03
-        implicitHeight: outerRadius * 0.9
-        antialiasing: true
-        color: "red"
+        Text {
+            text: "RPM"
+            color: "white"
+            font.pixelSize: 12
+            anchors.top: rpmlabel.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
     }
 }
 

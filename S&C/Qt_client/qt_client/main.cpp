@@ -29,6 +29,11 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     ClientV3 _client;
+    client mclient;
+    mclient.Connect();
+    mclient.sendmsg();
+
+    /*
     qInfo() << "Hello and welcome to the TCP network connection. Please send something:";
     if(_client.start()){
         qInfo() << "next";
@@ -42,4 +47,5 @@ int main(int argc, char *argv[])
     qInfo() << "Broken connection";
     }
     return a.exec();
+    */
 }
