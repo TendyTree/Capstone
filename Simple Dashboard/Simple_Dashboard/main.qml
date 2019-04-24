@@ -39,7 +39,7 @@ Window {
                 anchors.top: parent.top
                 anchors.topMargin: parent.height * .2
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: "qrc:/coolant.PNG"
+                source: "qrc:/coolant.png"
                 fillMode: Image.PreserveAspectFit
             }
 
