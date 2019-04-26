@@ -62,19 +62,30 @@ Window {
         font.pixelSize: 27
     }
 
-    Text {
-        id: airtemp
-        x: 510
-        width: 100
-        height: 30
-        color: "#ffffff"
-        text: Network.tempature+qsTr(" °C")
-        anchors.right: parent.right
-        anchors.rightMargin: 190
-        anchors.top: parent.top
-        anchors.topMargin: 36
-        horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: 27
+    Image {
+        id: image3
+        x: 288
+        y: 209
+        width: 200
+        height: 200
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: -30
+        anchors.horizontalCenter: parent.horizontalCenter
+        fillMode: Image.PreserveAspectFit
+        source: "qrc:/Tempature.png"
+
+        Text {
+            id: airtemp
+            x: 18
+            y: 94
+            width: 182
+            height: 30
+            color: "#020202"
+            text: Network.tempature+qsTr(" °c")
+            anchors.horizontalCenter: parent.horizontalCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 27
+        }
     }
 
     Column {
@@ -195,7 +206,10 @@ Window {
 
 
 
+
 }
+
+
 
 
 
@@ -262,11 +276,11 @@ Window {
 /*##^## Designer {
     D{i:3;anchors_height:30;anchors_width:100;anchors_x:510;anchors_y:36}D{i:2;anchors_height:30;anchors_width:182;anchors_x:187;anchors_y:36}
 D{i:1;anchors_height:30;anchors_width:100;anchors_x:296;anchors_y:36}D{i:4;anchors_height:30;anchors_width:100;anchors_x:10;anchors_y:36}
-D{i:5;anchors_width:182;anchors_x:10;anchors_y:36}D{i:10;anchors_width:45;anchors_x:0;anchors_y:36}
-D{i:9;anchors_height:30;anchors_width:45;anchors_x:296;anchors_y:36}D{i:8;anchors_height:30;anchors_width:100;anchors_x:510;anchors_y:36}
-D{i:7;anchors_width:182;anchors_x:187;anchors_y:36}D{i:6;anchors_width:182;anchors_x:10;anchors_y:44}
-D{i:15;anchors_height:40;anchors_x:"-59";anchors_y:337}D{i:14;anchors_height:40;anchors_width:800;anchors_x:"-59";anchors_y:337}
+D{i:6;anchors_width:182;anchors_x:10;anchors_y:44}D{i:5;anchors_width:182;anchors_x:10;anchors_y:36}
+D{i:9;anchors_height:30;anchors_width:45;anchors_x:296;anchors_y:36}D{i:11;anchors_height:480;anchors_width:800;anchors_x:0;anchors_y:0}
+D{i:10;anchors_height:30;anchors_width:45;anchors_x:0;anchors_y:36}D{i:8;anchors_height:30;anchors_width:100;anchors_x:510;anchors_y:36}
+D{i:7;anchors_width:182;anchors_x:187;anchors_y:36}D{i:14;anchors_height:40;anchors_width:800;anchors_x:"-59";anchors_y:337}
+D{i:16;anchors_height:40;anchors_x:"-59";anchors_y:337}D{i:15;anchors_height:40;anchors_width:800;anchors_x:"-59";anchors_y:337}
 D{i:13;anchors_height:40;anchors_width:800;anchors_x:0;anchors_y:337}D{i:12;anchors_height:480;anchors_width:800;anchors_x:0;anchors_y:0}
-D{i:11;anchors_height:480;anchors_width:800;anchors_x:0;anchors_y:0}
 }
  ##^##*/
