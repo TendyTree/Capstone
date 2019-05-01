@@ -7,7 +7,7 @@
 class networkThread : public QThread
 {
     Q_OBJECT
-
+    //Binds all the getter properties to a name which will be interacted in qml
     Q_PROPERTY(int coolant READ getcoolant NOTIFY coolantchange)
     Q_PROPERTY(int rpm READ getrpm NOTIFY rpmchange)
     Q_PROPERTY(int speed READ getspeed NOTIFY speedchange)

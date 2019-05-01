@@ -4,6 +4,9 @@
 
 networkThread::networkThread(QObject *parent): QThread(parent)
 {
+    //set up all varibles that will be used in between functions
+    //Create a TCP socket that will bbe used through out the thread
+    //Also connnect the Signal between the Socket API error to the got error fuction
     start_commands = {"ATZ\r","ATD0\r","ATSP0\r","ATE0\r","ATH1\r","ATST64\r","ATS0\r","ATAT1\r","0100\r"};
     run_commands = {"0105\r","010C\r","010D\r","0144\r","0146\r","0149\r","ATRV\r"};
     tcp = new QTcpSocket();
@@ -11,6 +14,9 @@ networkThread::networkThread(QObject *parent): QThread(parent)
     connect(this, SIGNAL(socketerror(QAbstractSocket::SocketError)), this, SLOT(goterror(QAbstractSocket::SocketError)));
 }
 bool networkThread::begin(){
+
+    //Attempt to connect to the Elm 327 and if there is an error after 5 second it emits an socket error
+
     tcp->connectToHost("127.0.0.1",35000);
     if(!tcp->waitForConnected(5000)){
         emit socketerror(tcp->error());
@@ -20,28 +26,35 @@ bool networkThread::begin(){
 
 }
 bool networkThread::initstart(){
+
+    //Set up the Elm 327 for reads and writes.
+
     QByteArray temp_array;
     qInfo() << "Welcome to the server!";
     for(int i = 0; i < start_commands.size(); i++){
-        //mutex
         temp_array = send(start_commands.at(i));
         qInfo() << temp_array;
         if(temp_array.contains("NODATA") || temp_array.contains("CAM ERROR") || temp_array == nullptr ){
             return false;
-        //unlock
         }
-        //unlock
     }
-    qInfo() << "return from start and starting thread";
+
+    //Starts the worker thread for updating the gauge
+
     if (!isRunning()){
         start();
         tcp->moveToThread(this);
 
     }else {
-        qInfo() << "something messed";
+        qInfo() << "There is another thread running";
     }
     return true;
 }
+
+
+//Worker thread.
+//Works through every command to get the current value from the Elm 327
+
 void networkThread::run(){
 
     QByteArray temp_recieve;
@@ -94,6 +107,9 @@ void networkThread::run(){
     qInfo() <<"ending";
     tcp->close();
 }
+
+//Send the current command and concats the response.
+
 QByteArray networkThread::send(QByteArray command){
     QMutexLocker locker(&mutex);
     tcp->write(command);
@@ -118,8 +134,9 @@ QByteArray networkThread::send(QByteArray command){
 
 
 
-
-
+//Private setter and Public getters.
+//Setter are private because they don't need to be accessed by other classes or QML
+//Public getter for interaction with qml
 
 void networkThread::coolant_temp(QByteArray coolantTemp){
     int temp = 0;
@@ -180,6 +197,9 @@ void networkThread::current_voltage(QByteArray currentVoltage){
     emit voltagechange();
     voltagemutex.unlock();
 }
+
+//converts the following returned value from a hex value to an int or float.
+
 int networkThread::get_values(QByteArray command, QByteArray message){
     bool tempTrue = true;
     int tempValue = 0;
@@ -201,10 +221,6 @@ int networkThread::get_values(QByteArray command, QByteArray message){
     return tempValue/tempIter;
 
 }
-
-
-
-
 
 
 
@@ -259,7 +275,7 @@ float networkThread::getvoltage(){
 }
 
 
-
+//Socket API error statement
 
 void networkThread::goterror(QAbstractSocket::SocketError socError){
     switch (socError) {
