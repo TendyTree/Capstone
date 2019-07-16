@@ -12,8 +12,8 @@ Window {
     height: 480
     color: "#000000"
     opacity: 1
-    visibility: "FullScreen"
-    title: qsTr("Dash")
+	visibility: "FullScreen"
+    title: qsTr("Dash Test")
 
 
     CircularGauge {
@@ -31,6 +31,7 @@ Window {
             minorTickmarkCount: 1
             minimumValueAngle: -90
             maximumValueAngle: -270
+            tickmarkStepSize: 20
             background: Image {
                 id: image2
                 x: 73
@@ -39,7 +40,7 @@ Window {
                 anchors.top: parent.top
                 anchors.topMargin: parent.height * .2
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: "qrc:/coolant.png"
+                source: "coolant.png"
                 fillMode: Image.PreserveAspectFit
             }
 
@@ -88,66 +89,9 @@ Window {
         }
     }
 
-    Column {
-        id: column
-        x: 600
-        y: 40
-        width: parent.width *0.4
-        height: parent.height * 0.7
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-
-        CircularGauge {
-            id: rpm
-            width: Math.min(parent.height, parent.width)
-            height: Math.min(parent.height, parent.width)
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            stepSize: 1
-            maximumValue: 8000
-            value: Network.rpm
-
-            Behavior on value{
-                NumberAnimation { duration: 1000 }
-            }
-            style: Rpmstyle {}
-
-            Gauge {
-                id: throttle
-                x: 73
-                y: 268
-                width: parent.width * .5
-                height: 40
-                anchors.horizontalCenterOffset: 0
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: -50
-                anchors.horizontalCenter: parent.horizontalCenter
-                minimumValue: 0
-                maximumValue: 100
-                minorTickmarkCount: 1
-                value: Network.throttle
-                orientation: Qt.Horizontal
-
-                Image {
-                    id: image
-                    x: 174
-                    width: 45
-                    height: 45
-                    anchors.right: parent.right
-                    anchors.rightMargin: -65
-                    anchors.top: parent.verticalCenter
-                    anchors.topMargin: -20
-                    source: "qrc:/Throttle.PNG"
-                    fillMode: Image.PreserveAspectFit
-                }
-            }
-
-        }
-    }
 
     Column {
-        id: column1
+        id: leftcol
         y: 72
         width: parent.width *0.4
         height: parent.height * 0.7
@@ -162,9 +106,9 @@ Window {
             anchors.left: parent.left
             anchors.leftMargin: 0
             stepSize: 1
-            value: Network.speed
             maximumValue: 180
             tickmarksVisible: true
+            value: Network.speed
             Behavior on value{
                 NumberAnimation { duration: 1000 }
             }
@@ -202,85 +146,64 @@ Window {
     }
 
 
+    Column {
+        id: rightcol
+        x: 600
+        y: 40
+        width: parent.width *0.4
+        height: parent.height * 0.7
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: 0
 
+        CircularGauge {
+            id: rpm
+            width: Math.min(parent.height, parent.width)
+            height: Math.min(parent.height, parent.width)
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+            stepSize: 1
+            maximumValue: 8000
+            value: Network.rpm
 
+            Behavior on value{
+                NumberAnimation { duration: 1000 }
+            }
+            style: Rpmstyle {}
 
+            Gauge {
+                id: throttle
+                x: 73
+                y: 268
+                width: parent.width * .5
+                height: 40
+                anchors.horizontalCenterOffset: 0
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: -50
+                anchors.horizontalCenter: parent.horizontalCenter
+                minimumValue: 0
+                maximumValue: 100
+                minorTickmarkCount: 3
+                tickmarkStepSize: 20
+                value: Network.throttle
+                orientation: Qt.Horizontal
 
+                Image {
+                    id: image
+                    x: 174
+                    width: 45
+                    height: 45
+                    anchors.right: parent.right
+                    anchors.rightMargin: -65
+                    anchors.top: parent.verticalCenter
+                    anchors.topMargin: -20
+                    source: "qrc:/Throttle.PNG"
+                    fillMode: Image.PreserveAspectFit
+                }
+            }
+
+        }
+    }
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*##^## Designer {
-    D{i:3;anchors_height:30;anchors_width:100;anchors_x:510;anchors_y:36}D{i:2;anchors_height:30;anchors_width:182;anchors_x:187;anchors_y:36}
-D{i:1;anchors_height:30;anchors_width:100;anchors_x:296;anchors_y:36}D{i:4;anchors_height:30;anchors_width:100;anchors_x:10;anchors_y:36}
-D{i:6;anchors_width:182;anchors_x:10;anchors_y:44}D{i:5;anchors_width:182;anchors_x:10;anchors_y:36}
-D{i:9;anchors_height:30;anchors_width:45;anchors_x:296;anchors_y:36}D{i:11;anchors_height:480;anchors_width:800;anchors_x:0;anchors_y:0}
-D{i:10;anchors_height:30;anchors_width:45;anchors_x:0;anchors_y:36}D{i:8;anchors_height:30;anchors_width:100;anchors_x:510;anchors_y:36}
-D{i:7;anchors_width:182;anchors_x:187;anchors_y:36}D{i:14;anchors_height:40;anchors_width:800;anchors_x:"-59";anchors_y:337}
-D{i:16;anchors_height:40;anchors_x:"-59";anchors_y:337}D{i:15;anchors_height:40;anchors_width:800;anchors_x:"-59";anchors_y:337}
-D{i:13;anchors_height:40;anchors_width:800;anchors_x:0;anchors_y:337}D{i:12;anchors_height:480;anchors_width:800;anchors_x:0;anchors_y:0}
-}
- ##^##*/
